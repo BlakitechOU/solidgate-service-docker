@@ -1,0 +1,13 @@
+*
+!.gitignore
+!logs
+!framework
+!framework/cache
+!framework/sessions
+!framework/testing
+!framework/views
+!app
+!app/public
+!app/public/http-cache
+!skich-store-development.jks
+!skich-store-production.jks

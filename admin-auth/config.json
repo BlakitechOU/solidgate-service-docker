@@ -1,0 +1,15 @@
+{
+  "theme": "dark",
+  "language": "en",
+  "basePath": "/auth",
+  "apiUrl": "/api",
+  "logo": "logo.svg",
+  "pageTitle": "OnlyApps E-Mails - Admin",
+  "authGoogle": {
+    "enabled": true,
+    "clientId": "608388508129-8qbqikcvjc0ghh8brefrgpkq7saqq3ak.apps.googleusercontent.com"
+  },
+  "copyright": {
+    "visible": false
+  }
+}

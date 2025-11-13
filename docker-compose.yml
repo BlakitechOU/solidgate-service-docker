@@ -1,0 +1,68 @@
+version: "3.4"
+
+services:
+  nginx:
+    container_name: ${APP_NAME}-nginx
+    image: nginx:stable-alpine
+    restart: always
+    ports:
+      - ${APP_PORT}:80
+    depends_on:
+      - backend
+    networks:
+      - app-network
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/errors:/var/www/errors
+      - ./backend/storage/app/public/http-cache:/var/www/http-cache
+  admin:
+    container_name: ${APP_NAME}-admin
+    restart: always
+    image: ghcr.io/blakitechou/email-service-admin:main
+    networks:
+      - app-network
+  admin-auth:
+    container_name: ${APP_NAME}-admin-auth
+    image: ozitag/tager-admin-auth:latest
+    volumes:
+      - ./admin-auth/public:/srv/public
+      - ./admin-auth/config.json:/srv/config.json
+    restart: always
+    networks:
+      - app-network
+  api:
+    container_name: ${APP_NAME}-api
+    restart: always
+    image: ghcr.io/blakitechou/email-service-api:main
+    env_file:
+      - ./api/.env.${ENV}
+    networks:
+      - app-network
+  backend:
+    container_name: ${APP_NAME}-backend
+    restart: always
+    working_dir: /var/www
+    tty: true
+    extra_hosts:
+      - "dockerhost:172.17.0.1"
+    image: ghcr.io/blakitechou/email-service-backend:main
+    env_file:
+      - ./backend/.env.${ENV}
+    volumes:
+      - ./backend/storage:/var/www/app/storage
+    environment:
+      CONTAINER_ROLE: fpm
+      WEB_DOCUMENT_ROOT: /var/www/app/public
+      PHP_MEMORY_LIMIT: 20G
+      PHP_UPLOAD_MAX_FILESIZE: 20G
+      PHP_POST_MAX_SIZE: 20G
+      PHP_MAX_EXECUTION_TIME: 18000
+      SERVICE_NGINX_CLIENT_MAX_BODY_SIZE: 20G
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
+
+
+
