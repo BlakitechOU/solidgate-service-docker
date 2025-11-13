@@ -18,7 +18,7 @@ services:
   admin:
     container_name: ${APP_NAME}-admin
     restart: always
-    image: ghcr.io/blakitechou/email-service-admin:main
+    image: ghcr.io/blakitechou/solidgate-service-admin:main
     networks:
       - app-network
   admin-auth:
@@ -33,7 +33,7 @@ services:
   api:
     container_name: ${APP_NAME}-api
     restart: always
-    image: ghcr.io/blakitechou/email-service-api:main
+    image: ghcr.io/blakitechou/solidgate-service-api:main
     env_file:
       - ./api/.env.${ENV}
     networks:
@@ -45,7 +45,7 @@ services:
     tty: true
     extra_hosts:
       - "dockerhost:172.17.0.1"
-    image: ghcr.io/blakitechou/email-service-backend:main
+    image: ghcr.io/blakitechou/solidgate-service-backend:main
     env_file:
       - ./backend/.env.${ENV}
     volumes:
