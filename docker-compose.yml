@@ -36,6 +36,8 @@ services:
     image: ghcr.io/blakitechou/solidgate-service-api:main
     env_file:
       - ./api/.env.${ENV}
+    volumes:
+      - ./api/logs:/app/logs
     networks:
       - app-network
   backend:
