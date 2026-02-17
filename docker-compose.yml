@@ -38,6 +38,7 @@ services:
       - ./api/.env.${ENV}
     volumes:
       - ./api/logs:/app/logs
+      - ./api/output:/app/output
     networks:
       - app-network
   backend:
